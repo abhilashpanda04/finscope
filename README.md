@@ -416,7 +416,7 @@ src/finscope/
 | Command-style CLI actions | Keep menu actions modular and testable |
 | Typed dataclasses | Keep output structures explicit and predictable |
 
-## Testing
+## Data Sources
 
 Run the default suite:
 
@@ -454,6 +454,8 @@ Example:
 
 ```bash
 export SEC_EDGAR_EMAIL=you@example.com
+export OPENAI_API_KEY=sk-...
+export FINSCOPE_AI_MODEL="anthropic:claude-sonnet-4-20250514"
 ```
 
 ## Roadmap
