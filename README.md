@@ -4,32 +4,30 @@
 | |_  | | '_ \\___ \ / __/ _ \| '_ \ / _ \\
 |  _| | | | | |___) | (_| (_) | |_) |  __/
 |_|   |_|_| |_|____/ \___\___/| .__/ \___|
-                               |_|
+                               |_|        
 ```
 
 # finscope
 
-> Terminal-native financial research for stocks, ETFs, and mutual funds — structured data, valuation and risk engines, and optional AI analysis, all without leaving the shell.
+Terminal-based financial research for stocks, ETFs, and mutual funds.
 
 [![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/abhilashpanda04/finscope)
 [![Python](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-`finscope` is a command-line research tool **and** a Python library for market analysis. It unifies price history, fundamentals, SEC filings, fund discovery, valuation models, risk analytics, and terminal-first rendering into a single workflow — with an optional AI layer that can summarize filings, build bull/bear cases, and answer natural-language questions about any ticker.
+`finscope` is a command-line research tool and Python library for market analysis. It combines price history, fundamentals, SEC filings, fund discovery, valuation models, risk analytics, and terminal-first rendering in a single workflow.
 
-It is built for people who want fast, structured financial research without spreadsheets or browser-heavy tooling.
+It is built for people who want fast, structured financial research without depending on spreadsheets or browser-heavy tooling.
 
 ## Highlights
 
-- **Stock, ETF, and mutual fund** research from the terminal
-- **SEC EDGAR** integration for official US filing data (XBRL financials, filings, insider trades)
-- **Valuation engine** — Graham, DCF, PEG, relative multiples, Piotroski F-Score, Altman Z-Score
-- **Risk engine** — volatility, VaR/CVaR, max drawdown, Sharpe / Sortino / Calmar, beta
-- **S&P 500 screener** with a pandas-style query DSL
-- **Optional AI analysis** — works with OpenAI, Anthropic, Gemini, Groq, or Mistral (or bring your own model)
-- **Interactive dashboard** with arrow-key, segmented menus
-- **Python API** with lazy-loaded objects and typed data models
-- **HTML export** for shareable reports
+- Stock, ETF, and mutual fund research from the terminal
+- SEC EDGAR integration for official US filing data
+- Valuation and risk engines built into the CLI
+- Interactive dashboard mode with segmented menus
+- Fund support for global ETFs and Indian mutual funds
+- Python API with lazy-loaded objects and typed models
+- HTML export for shareable reports
 
 ## Table of Contents
 
@@ -39,7 +37,6 @@ It is built for people who want fast, structured financial research without spre
 - [Core Features](#core-features)
 - [CLI Reference](#cli-reference)
 - [Interactive Mode](#interactive-mode)
-- [AI Analysis](#ai-analysis)
 - [Python API](#python-api)
 - [Data Sources](#data-sources)
 - [Architecture](#architecture)
@@ -54,7 +51,7 @@ It is built for people who want fast, structured financial research without spre
 
 - Python 3.11+
 
-### Install from source (recommended)
+### Install from source
 
 ```bash
 git clone https://github.com/abhilashpanda04/finscope.git
@@ -103,12 +100,6 @@ finscope AAPL risk 1y
 finscope compare AAPL MSFT GOOGL
 ```
 
-### Screen the S&P 500
-
-```bash
-finscope screen "pe < 15 and roe > 20"
-```
-
 ### Explore funds
 
 ```bash
@@ -119,15 +110,6 @@ finscope funds
 
 ```bash
 finscope export AAPL
-```
-
-### AI analysis (requires an LLM API key)
-
-```bash
-export OPENAI_API_KEY=sk-...        # or ANTHROPIC_API_KEY, GEMINI_API_KEY, …
-finscope AAPL analyze
-finscope AAPL ask "Is it overvalued relative to peers?"
-finscope AAPL summarize-filings
 ```
 
 ## Example Output
@@ -240,61 +222,41 @@ Select a category:
 
 - Income statement, balance sheet, and cash flow views
 - SEC EDGAR XBRL financial extraction
-- Recent SEC filings (10-K, 10-Q, 8-K, …)
-- Insider transaction tracking (Forms 3 / 4 / 5)
+- Recent SEC filings
+- Insider transaction tracking
 
 ### Analytics
 
-**Valuation models** — `finscope <ticker> valuate`
-
-- Graham Number (intrinsic value)
-- Discounted Cash Flow
-- PEG fair value (Peter Lynch)
-- Relative valuation (multiples vs. history)
-- Piotroski F-Score (9-point financial-strength test)
-- Altman Z-Score (bankruptcy-risk indicator)
-- Composite verdict with margin of safety
-
-**Risk analytics** — `finscope <ticker> risk`
-
-- Volatility (annualized, 30D, 90D)
-- Value at Risk and Conditional VaR
-- Max drawdown
-- Sharpe, Sortino, and Calmar ratios
-- Beta and correlation versus the S&P 500
-- Fundamental balance-sheet risk overlay
-
-**Other**
-
-- Dividend analysis and DRIP reinvestment views
-- Earnings trend and surprise / beat-rate history
-- Peer auto-discovery and side-by-side comparison
-- S&P 500 screener (see [CLI Reference](#cli-reference))
+- Valuation models
+  - Graham Number
+  - Discounted Cash Flow
+  - PEG fair value
+  - Relative valuation
+  - Piotroski F-Score
+  - Altman Z-Score
+- Risk analytics
+  - Volatility
+  - Value at Risk and Conditional VaR
+  - Max drawdown
+  - Sharpe, Sortino, and Calmar ratios
+  - Beta and correlation versus market
+- Dividend analysis and reinvestment views
+- Earnings trend and surprise analysis
+- Peer comparison
+- S&P 500 screening
 
 ### Funds and portfolio workflows
 
 - Global ETF and fund snapshot views
 - Fund risk and rolling-return analysis
-- Indian mutual fund search and NAV history (MFAPI.in)
+- Indian mutual fund search and NAV history
 - Persistent watchlist
-- Portfolio tracking with summary metrics
-
-### AI analysis (optional)
-
-When an LLM provider is configured, finscope adds four AI-powered commands that pull live data through the same provider stack (Yahoo Finance + SEC EDGAR) before reasoning:
-
-- **Comprehensive analysis** — bull/bear case, risk factors, sentiment verdict
-- **Ask anything** — natural-language Q&A about a stock
-- **Filing summaries** — key highlights and risk factors from recent SEC filings
-- **AI comparison** — insight across multiple stocks
-
-See [AI Analysis](#ai-analysis).
+- Portfolio tracking and summary metrics
 
 ### Output
 
 - Interactive terminal dashboard mode
 - Rich tables, rules, sparklines, and formatted panels
-- Source attribution on every view
 - HTML report export
 - Programmatic Python API
 
@@ -304,74 +266,47 @@ Command pattern:
 
 ```text
 finscope <ticker> <command> [options]
-finscope <keyword-command> [args...]
 ```
 
-### Ticker subcommands
+### Core commands
 
 | Command | Example | Description |
 | :--- | :--- | :--- |
-| (overview) | `finscope AAPL` | Quick company overview |
-| `ratios` | `finscope AAPL ratios` | Key financial ratios |
-| `price` | `finscope AAPL price 1y` | Historical price table |
-| `financials` | `finscope AAPL financials` | Income statement |
-| `balance-sheet` | `finscope AAPL balance-sheet` | Balance sheet |
-| `cashflow` | `finscope AAPL cashflow` | Cash flow statement |
-| `news` | `finscope AAPL news` | Recent headlines |
-| `analysts` | `finscope AAPL analysts` | Analyst recommendations |
-| `holders` | `finscope AAPL holders` | Ownership breakdown |
-| `sec-financials` | `finscope AAPL sec-financials` | SEC XBRL financials (`--category income\|balance\|cashflow`) |
-| `sec-filings` | `finscope AAPL sec-filings` | Recent SEC filings |
-| `insiders` | `finscope AAPL insiders` | Insider transaction history |
-| `valuate` | `finscope AAPL valuate` | Composite valuation (6 models) |
-| `risk` | `finscope AAPL risk 1y` | Risk profile and downside metrics |
-| `dividends` | `finscope AAPL dividends` | Dividend profile, growth, DRIP |
-| `earnings` | `finscope AAPL earnings` | Earnings surprise / beat rate |
-| `peers` | `finscope AAPL peers` | Peer discovery and comparison |
-| `analyze` | `finscope AAPL analyze` | AI comprehensive analysis *(key required)* |
-| `ask` | `finscope AAPL ask "..."` | Ask any question about a stock *(key required)* |
-| `summarize-filings` | `finscope AAPL summarize-filings` | AI SEC filing summary *(key required)* |
+| default overview | `finscope AAPL` | Quick company overview |
+| ratios | `finscope AAPL ratios` | Key financial ratios |
+| price | `finscope AAPL price 1y` | Historical price table |
+| financials | `finscope AAPL financials` | Income statement |
+| balance-sheet | `finscope AAPL balance-sheet` | Balance sheet |
+| cashflow | `finscope AAPL cashflow` | Cash flow statement |
+| news | `finscope AAPL news` | Recent headlines |
+| analysts | `finscope AAPL analysts` | Analyst recommendations |
+| holders | `finscope AAPL holders` | Ownership breakdown |
+| sec-financials | `finscope AAPL sec-financials` | SEC XBRL financials |
+| sec-filings | `finscope AAPL sec-filings` | Recent SEC filings |
+| insiders | `finscope AAPL insiders` | Insider transaction history |
+| valuate | `finscope AAPL valuate` | Composite valuation models |
+| risk | `finscope AAPL risk 1y` | Risk profile and downside metrics |
+| dividends | `finscope AAPL dividends` | Dividend profile and history |
+| earnings | `finscope AAPL earnings` | Earnings trend and surprise history |
+| peers | `finscope AAPL peers` | Peer discovery and comparison |
+| export | `finscope export AAPL` | HTML report export |
 
-### Keyword commands
+### Workflow commands
 
 | Command | Example | Description |
 | :--- | :--- | :--- |
-| `compare` | `finscope compare AAPL MSFT GOOGL` | Side-by-side stock comparison |
-| `compare --analyze` | `finscope compare AAPL MSFT --analyze` | AI comparison insight *(key required)* |
-| `watchlist` | `finscope watchlist AAPL TSLA NVDA` | Quick (ephemeral) watchlist table |
-| `watch` | `finscope watch add AAPL MSFT` | Persistent watchlist management |
-| `portfolio` | `finscope portfolio add AAPL 50 142.50` | Portfolio tracking |
-| `screen` | `finscope screen "pe < 15"` | S&P 500 screener |
-| `funds` | `finscope funds` | Mutual fund and ETF explorer |
-| `export` | `finscope export AAPL` | HTML report export (`--output file.html`) |
-| `interactive` | `finscope AAPL -i` | Dashboard mode |
-
-### Global flags
-
-| Flag | Purpose |
-| :--- | :--- |
-| `-i`, `--interactive` | Launch interactive menu mode |
-| `-o`, `--output PATH` | Output file (for `export`) |
-| `--period PERIOD` | Time period for `price` / `risk` (default `1mo`) |
-| `--category CAT` | SEC financials category: `income` \| `balance` \| `cashflow` |
-| `--analyze` | Use AI for `compare` |
-| `--version` | Print version |
+| compare | `finscope compare AAPL MSFT GOOGL` | Side-by-side stock comparison |
+| watchlist | `finscope watchlist AAPL TSLA NVDA` | Quick watchlist table |
+| watch | `finscope watch add AAPL MSFT` | Persistent watchlist management |
+| portfolio | `finscope portfolio add AAPL 50 142.50` | Portfolio tracking |
+| screen | `finscope screen "pe < 15"` | S&P 500 screener |
+| funds | `finscope funds` | Mutual fund and ETF explorer |
+| interactive | `finscope AAPL -i` | Dashboard mode |
 
 ### Supported price periods
 
 ```text
 1d  5d  1mo  3mo  6mo  1y  2y  5y  10y  ytd  max
-```
-
-### Screener query syntax
-
-`finscope screen "<query>"` filters the current S&P 500 using **pandas `DataFrame.query`** syntax over fetched fundamentals. Combine conditions with `and` / `or`; string fields use quotes.
-
-**Available fields:** `sector`, `industry`, `market_cap`, `pe`, `forward_pe`, `pb`, `ps`, `dividend_yield`, `roe`, `roa`, `debt_to_equity`, `current_price`.
-
-```bash
-finscope screen "pe < 20 and roe > 15 and sector == 'Technology'"
-finscope screen "dividend_yield > 2.5 and debt_to_equity < 1"
 ```
 
 ## Interactive Mode
@@ -380,82 +315,25 @@ Interactive mode provides a grouped terminal dashboard for:
 
 - overview and market data
 - statements and filings
-- advanced analysis (valuation, risk, dividends, earnings, peers, screener)
-- AI analysis submenu (when a provider is configured)
-- comparison, watchlist, portfolio, and funds
+- advanced analysis
+- comparison and screening
+- watchlist, portfolio, and funds
 
-Launch with a ticker:
+Launch with:
 
 ```bash
 finscope AAPL -i
 ```
 
-Or start without one (you'll be prompted):
+Or start without a ticker:
 
 ```bash
 finscope -i
 ```
 
-## AI Analysis
-
-The AI layer is **opt-in**. It only activates when an LLM provider is configured, and it always grounds its reasoning in live data fetched through finscope's own Yahoo Finance and SEC EDGAR providers — the model receives structured financials, prices, and filings, not just a ticker symbol.
-
-### Providers
-
-Set **one** provider API key in your environment. finscope auto-detects the first available provider in the order below:
-
-| Env var | Model |
-| :--- | :--- |
-| `OPENAI_API_KEY` | `openai:gpt-4o` |
-| `ANTHROPIC_API_KEY` | `anthropic:claude-sonnet-4-20250514` |
-| `GEMINI_API_KEY` | `google-gla:gemini-2.0-flash` |
-| `GROQ_API_KEY` | `groq:llama-3.3-70b-versatile` |
-| `MISTRAL_API_KEY` | `mistral:mistral-large-latest` |
-
-To override the auto-detected choice (any pydantic-ai model string):
-
-```bash
-export FINSCOPE_AI_MODEL="openai:gpt-4o-mini"
-```
-
-`FINSCOPE_AI_MODEL` always takes priority over the per-provider keys.
-
-### Commands
-
-```bash
-finscope AAPL analyze                      # Bull/bear case + risk factors + sentiment
-finscope AAPL ask "How leveraged is Apple?"  # Natural-language Q&A
-finscope AAPL summarize-filings            # Key highlights from recent SEC filings
-finscope compare AAPL MSFT NVDA --analyze  # AI-driven comparison insight
-```
-
-If no provider key is set, AI commands print a helpful message and exit without making network calls.
-
-### Python API (async)
-
-```python
-import asyncio
-import finscope
-
-aapl = finscope.stock("AAPL")
-
-async def main():
-    analysis = await aapl.analyze()              # StockAnalysis
-    print(analysis.summary, analysis.sentiment)
-
-    answer = await aapl.ask("What's the debt situation?")
-    print(answer)
-
-    filings = await aapl.summarize_filings()     # FilingSummary
-
-    insight = await finscope.ai_compare("AAPL", "MSFT", "GOOGL")
-
-asyncio.run(main())
-```
-
 ## Python API
 
-`finscope` is also a Python library. All data properties are **lazily fetched and cached** on first access — nothing hits the network until you ask for it.
+`finscope` is also available as a Python library.
 
 ### Stock research
 
@@ -464,63 +342,30 @@ import finscope
 
 aapl = finscope.stock("AAPL")
 
-# ── Market data & fundamentals ──────────────────────────────────────
-info      = aapl.info                       # raw Yahoo Finance dict
-ratios    = aapl.ratios                     # KeyRatios (typed)
-history   = aapl.price_history("1y")        # OHLCV DataFrame
-sparkline = aapl.sparkline                  # 3-month price series
-news      = aapl.news
-financials   = aapl.financials              # income statement
-balance_sheet = aapl.balance_sheet
-cashflow  = aapl.cashflow
-analysts  = aapl.analyst_recommendations
-holders   = aapl.holders                    # (breakdown, institutional)
+info = aapl.info
+ratios = aapl.ratios
+history = aapl.price_history("1y")
+news = aapl.news
+filings = aapl.sec_filings(count=10)
 
-# ── SEC EDGAR ───────────────────────────────────────────────────────
-sec_fin   = aapl.sec_financials             # XBRL financials by category
-filings   = aapl.sec_filings(count=10)
-insiders  = aapl.insider_transactions
+valuation = aapl.valuate()
+risk = aapl.risk(period="1y")
+```
 
-# ── Analytics (pure financial logic — no API key needed) ────────────
-valuation = aapl.valuate()                  # StockValuation
-valuation.verdict                          # "Fairly Valued"
-valuation.graham.intrinsic                 # 112.45
-valuation.piotroski.score                  # 7
+### Comparison
 
-risk      = aapl.risk(period="1y")          # StockRisk
-risk.risk_level                            # "Moderate"
-risk.risk_adjusted.sharpe_ratio            # 1.12
-risk.market.beta                           # 1.24
-
-dividends = aapl.dividends()               # DividendAnalysis
-earnings  = aapl.earnings()                # EarningsAnalysis
-peers     = aapl.peers()                   # PeerComparison
-
-# ── Multi-stock & export ────────────────────────────────────────────
-results   = finscope.compare("AAPL", "MSFT", "GOOGL")   # list[ComparisonData]
-compared  = aapl.compare_with("MSFT", "GOOGL")
-path      = aapl.export_html("aapl_report.html")
+```python
+results = finscope.compare("AAPL", "MSFT", "GOOGL")
 ```
 
 ### Funds
 
 ```python
 vwrl = finscope.fund("VWRL.L")
-
-info     = vwrl.info
-returns  = vwrl.returns                    # returns by period
-risk     = vwrl.risk("1y")                 # FundRisk
-analysis = vwrl.analyze()                  # FundAnalysis (expense, rolling returns)
-```
-
-### Screener
-
-```python
-from finscope import screen
-
-hits = screen("pe < 20 and roe > 15 and sector == 'Technology'")
-for h in hits:
-    print(h.symbol, h.metrics)
+info = vwrl.info
+returns = vwrl.returns
+risk = vwrl.risk("1y")
+analysis = vwrl.analyze()
 ```
 
 ## Data Sources
@@ -539,7 +384,6 @@ for h in hits:
 - Yahoo Finance is used as a broad-coverage market-data layer
 - Terminal views include source attribution
 - Missing or weak source coverage falls back gracefully rather than failing hard
-- AI commands are grounded in data from these same providers, not in the model's parametric memory
 
 ### Note on trust and coverage
 
@@ -552,13 +396,10 @@ src/finscope/
 ├── cli.py                  CLI entry point and interactive dashboard
 ├── stock.py                High-level Stock and Fund facades
 ├── services/               Orchestration layer over providers
-├── providers/              Data-source adapters (Yahoo, SEC EDGAR, MFAPI)
+├── providers/              Data-source adapters
 ├── risk/                   Risk models and computations
-├── valuation/              Valuation models and composite verdicts
+├── valuation/              Valuation models and verdicts
 ├── fund_analysis/          Fund analysis engines
-├── screener/               S&P 500 query engine
-├── dividends/  earnings/  peers/  portfolio/  watchlist/   Domain engines
-├── ai/                     LLM agents, tools, prompts, provider config
 ├── ui/                     Rich renderers, formatters, builders
 ├── models.py               Shared typed data models
 ├── exceptions.py           Exception hierarchy
@@ -570,21 +411,20 @@ src/finscope/
 | Pattern | Usage |
 | :--- | :--- |
 | Strategy | Swap data providers without changing callers |
-| Facade | Expose simple `Stock` / `Fund` interfaces over multiple providers |
+| Facade | Expose simple service interfaces over multiple providers |
 | Builder | Standardize Rich table creation |
 | Command-style CLI actions | Keep menu actions modular and testable |
 | Typed dataclasses | Keep output structures explicit and predictable |
-| Tool-augmented LLM agents | Ground AI answers in live provider data |
 
-## Testing
+## Data Sources
 
-Run the default suite (unit + smoke; network tests are deselected by default):
+Run the default suite:
 
 ```bash
 pytest
 ```
 
-Run integration tests (real network calls):
+Run integration tests:
 
 ```bash
 pytest -m integration -v
@@ -608,23 +448,15 @@ Recommended practice:
 
 | Variable | Default | Purpose |
 | :--- | :--- | :--- |
-| `SEC_EDGAR_EMAIL` | `finscope-user@example.com` | Contact email in the SEC EDGAR User-Agent |
-| `OPENAI_API_KEY` | — | Enable AI analysis with OpenAI |
-| `ANTHROPIC_API_KEY` | — | Enable AI analysis with Anthropic |
-| `GEMINI_API_KEY` | — | Enable AI analysis with Google Gemini |
-| `GROQ_API_KEY` | — | Enable AI analysis with Groq |
-| `MISTRAL_API_KEY` | — | Enable AI analysis with Mistral |
-| `FINSCOPE_AI_MODEL` | — | Override the auto-detected model (any pydantic-ai model string) |
+| `SEC_EDGAR_EMAIL` | `finscope-user@example.com` | Contact email in SEC EDGAR User-Agent |
 
-Examples:
+Example:
 
 ```bash
 export SEC_EDGAR_EMAIL=you@example.com
 export OPENAI_API_KEY=sk-...
 export FINSCOPE_AI_MODEL="anthropic:claude-sonnet-4-20250514"
 ```
-
-> Only **one** AI provider key is needed. If several are set, finscope picks the first in the provider order shown in [AI Analysis](#ai-analysis); `FINSCOPE_AI_MODEL` always wins.
 
 ## Roadmap
 
@@ -636,7 +468,6 @@ Good next steps that fit the current architecture include:
 - benchmark-relative fund analytics
 - portfolio stress testing
 - broader official-source replacement for third-party fields
-- more AI workflows (sector screening, portfolio review)
 
 ## License
 
